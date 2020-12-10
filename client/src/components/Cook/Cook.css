@@ -1,0 +1,44 @@
+.Cook {
+    max-height: 550px;
+    overflow-x: auto;
+    width: 100%;
+}
+
+ul {
+    list-style: none;
+    overflow-x: auto;
+    max-height: 320px;
+    width: 95%;
+}
+
+li {
+    padding: 5px;
+    width: 95%;
+}
+
+.clockpicker-display-column, .picker__box {
+    background-color: yellowgreen;
+}
+.time-picker-clock {
+    background-color: beige;
+}
+
+.clockpicker-button {
+    background-color: rgba(255, 140, 0, 0.637);
+}
+
+.clockpicker-button:hover {
+    background-color: rgba(247, 178, 94, 0.637);
+}
+
+.md-form {
+    background-color: yellowgreen;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid green;
+    cursor: pointer;
+}
+
+.timepicker {
+    text-align: center;
+}
