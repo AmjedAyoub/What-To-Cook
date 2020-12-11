@@ -4,9 +4,7 @@ import { TimePicker } from '@material-ui/pickers';
 import "./Cook.css";
 
 const cook = (props) => {
-
-    let val = Date.parse(props.hours + ":" + props.minutes+ ":" + props.minutes);
-    console.log(new Date(val));
+    let val = Date.parse("Thu Dec 10 2020 " + props.hours + ":" + props.minutes+ ":00 GMT-0800");
         return(
             <div className="Cook">
                     {props.isCooking? 
@@ -28,29 +26,16 @@ const cook = (props) => {
                             <div className="Col-md-3" style={{marginBlock:'auto'}}>
                                 {props.timer ? <div><button className="btn warning" onClick={props.stopTimer}>Stop Timer</button>
                                 <strong>{props.showHours}:{props.showMinutes}:{props.showSeconds}</strong></div> : null}
-                                {/* <MDBTimePicker cancelable closeOnCancel style={{border:'1px solid green'}} id="timePicker" label={props.timer ? "Reset Timer" : "Set Timer"} hours={props.hours} minutes={props.minutes} hoursFormat={24} getValue={props.getValue}/> */}
-                                {/* <TimePicker onClose={props.getValue} value={props.hours + ":" + props.minutes}/> */}
                                 <TimePicker
                                 clearable
                                 ampm={false}
                                 openTo="hours"
-                                views={["hours", "minutes", "seconds"]}
-                                format="HH:mm:ss"
+                                views={["hours", "minutes"]}
+                                format="HH:mm"
                                 label={props.timer ? "Reset Timer" : "Set Timer"}
-                                value={props.hours + ":" + props.minutes+ ":" + props.minutes}
+                                value={val}
                                 onChange={(event) => props.getValue(event)}
                             />
-                                {/* <TimePicker
-                                margin="normal"
-                                id="time-picker"
-                                label="Time picker"
-                                value={props.hours + ":" + props.minutes}
-                                onChange={(event) => props.getValue(event)}
-                                // onClose={(value) => props.getValue(value)}
-                                />
-                                <ClockView
-                                date={props.hours + ":" + props.minutes}
-                                /> */}
                                 <button className="btn primary" onClick={() => props.viewSteps('Steps', false)}>View Steps</button>
                                 <button className="btn danger" onClick={props.finish}>Finish Cooking</button>
                             </div>

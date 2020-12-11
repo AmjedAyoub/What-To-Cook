@@ -182,20 +182,18 @@ class Home extends Component {
   }
 
   startTimerHandler = (event) => {
-    console.log(event)
-    // if(value){
-    //   console.log(value);
-    //   let time = (value).split(':');
-    //   let nowTime = new Date();
-    //   nowTime.setHours(nowTime.getHours() + (+time[0]));
-    //   nowTime.setMinutes(nowTime.getMinutes() + (+time[1]));
-    //   const finishTime = nowTime;
-    //     if(time[0] !== "00" || time[1] !== "00"){
-    //         clearInterval(this.state.intervalCook);
-    //         this.updateFinishTimeHandler(finishTime);
-    //         this.startTimer(finishTime, +time[0], +time[1]);
-    //     }
-    // }
+    console.log(event.getHours())
+    if(event){
+      let nowTime = new Date();
+      nowTime.setHours(nowTime.getHours() + event.getHours());
+      nowTime.setMinutes(nowTime.getMinutes() + event.getMinutes());
+      const finishTime = nowTime;
+        if(event.getHours() !== 0 || event.getMinutes() !== 0){
+            clearInterval(this.state.intervalCook);
+            this.updateFinishTimeHandler(finishTime);
+            this.startTimer(finishTime, event.getHours(), event.getMinutes());
+        }
+    }
   }
 
   startTimer = (finishTime, th = 0, tm = 0) => {    
@@ -225,6 +223,7 @@ class Home extends Component {
             finishTime: null,
             hours: '00',
             minutes: '00',
+            seconds: '00',
             showAlert: true,
             alertMessage: 'Timer is done!',
             alertConfirm: false,
@@ -258,6 +257,7 @@ class Home extends Component {
       timer: false,
       hours: '00',
       minutes: '00',
+      seconds: '00',
       showHours: 0,
       showMinutes: 0,
       showSeconds: 0,
@@ -689,7 +689,7 @@ class Home extends Component {
         break;
       case 'Cook':
         model = (
-          <Cook isCooking={this.state.isCooking}  cook={(recipe) => this.recipeToCookHandler(recipe)} recipe={this.state.recipeToCook} finish={this.finishCookHandler} viewSteps={() => this.switchToStepsHandler()} viewRecipe={(recipe, prevPage) => this.switchToViewRecipeHandler(recipe, prevPage)} myMeals={this.state.myMeals} deleteRecipe={(recipe) => this.deleteRecipeHandler(recipe)} hours={this.state.hours} minutes={this.state.minutes} getValue={(val) => this.startTimerHandler(val)} timer={this.state.timer} stopTimer={this.stopTimerHandler} showHours={this.state.showHours} showMinutes={this.state.showMinutes} showSeconds={this.state.showSeconds}/>
+          <Cook isCooking={this.state.isCooking}  cook={(recipe) => this.recipeToCookHandler(recipe)} recipe={this.state.recipeToCook} finish={this.finishCookHandler} viewSteps={() => this.switchToStepsHandler()} viewRecipe={(recipe, prevPage) => this.switchToViewRecipeHandler(recipe, prevPage)} myMeals={this.state.myMeals} deleteRecipe={(recipe) => this.deleteRecipeHandler(recipe)} hours={this.state.hours} minutes={this.state.minutes} seconds={this.state.seconds} getValue={(event) => this.startTimerHandler(event)} timer={this.state.timer} stopTimer={this.stopTimerHandler} showHours={this.state.showHours} showMinutes={this.state.showMinutes} showSeconds={this.state.showSeconds}/>
         );
         break
       case 'Steps':
