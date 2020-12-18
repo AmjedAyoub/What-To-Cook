@@ -40,7 +40,7 @@ class Logging extends Component {
                 // Tell the UI we've authenticated.
                 localStorage.setItem("userID", res.data._id)
                 // React redirect to /home route.
-                this.props.history.push("/home");
+                this.props.history.push("/Home");
             })
             .catch(err => this.setState({ error: err.message }));
 
