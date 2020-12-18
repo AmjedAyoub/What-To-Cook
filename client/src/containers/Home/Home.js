@@ -55,7 +55,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    axios.get("http://localhost:3001/AllItems/" + localStorage.getItem("userID"))
+    axios.get("http://whatcook.herokuapp.com/AllItems/" + localStorage.getItem("userID"))
         .then(res => {
             if (res.status === "error") {
                 throw new Error(res.data.message);
@@ -136,7 +136,7 @@ class Home extends Component {
   }
 
   updateFinishTimeHandler = (finishTime) => {
-      axios.post("http://localhost:3001/finishTime",{
+      axios.post("http://whatcook.herokuapp.com/finishTime",{
         userID: localStorage.getItem("userID"),
         finishTime: finishTime
       }
@@ -150,7 +150,7 @@ class Home extends Component {
   }
 
   updateWashHandler = (washLoads) => {
-      axios.post("http://localhost:3001/wash",{
+      axios.post("http://whatcook.herokuapp.com/wash",{
         userID: localStorage.getItem("userID"),
         washLoads: washLoads
       }
@@ -164,7 +164,7 @@ class Home extends Component {
   }
 
   updateCookingHandler = (cookingId) => {
-      axios.post("http://localhost:3001/cooking",{
+      axios.post("http://whatcook.herokuapp.com/cooking",{
         userID: localStorage.getItem("userID"),
         cookingId: cookingId
       }
@@ -379,7 +379,7 @@ class Home extends Component {
 
   finishCookHandler = async() => {
     for (let i = 0; i < this.state.recipeToCook.nutrition.ingredients.length; i++) {
-      await axios.post("http://localhost:3001/cookItems",{
+      await axios.post("http://whatcook.herokuapp.com/cookItems",{
         userID: localStorage.getItem("userID"),
         name: this.state.recipeToCook.nutrition.ingredients[i].name,
         quantity: this.state.recipeToCook.nutrition.ingredients[i].amount
@@ -397,7 +397,7 @@ class Home extends Component {
   }
   
   cook = () => {
-    axios.post("http://localhost:3001/addRecipe",{
+    axios.post("http://whatcook.herokuapp.com/addRecipe",{
       userID: localStorage.getItem("userID"),
       id: this.state.recipeToCook.id,
       title: this.state.recipeToCook.title,
@@ -447,7 +447,7 @@ class Home extends Component {
   }
 
   deleteRecipeHandler = (id) => {
-    axios.post("http://localhost:3001/deleteRecipe",{
+    axios.post("http://whatcook.herokuapp.com/deleteRecipe",{
         userID: localStorage.getItem("userID"),
         recipeID: this.state.myMeals[id]._id,
       }
@@ -642,7 +642,7 @@ class Home extends Component {
   }
   
   logoutHandler=()=>{
-    axios.post("http://localhost:3001/logout", {})
+    axios.post("http://whatcook.herokuapp.com/logout", {})
     .then(res => {
       console.log("look here", res)
     //   localStorage.setItem("userID", res.data._id)

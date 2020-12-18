@@ -32,7 +32,7 @@ class Logging extends Component {
     handleFormSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
-        axios.post("http://localhost:3001/login", { user: this.state.user, email: this.state.email, password: this.state.password1, passwordConf: this.state.password2 })
+        axios.post("http://whatcook.herokuapp.com/login", { user: this.state.user, email: this.state.email, password: this.state.password1, passwordConf: this.state.password2 })
             .then(res => {
                 if (res.status === "error") {
                     throw new Error(res.data.message);
@@ -55,7 +55,7 @@ class Logging extends Component {
     handleSginInSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
-        axios.post("http://localhost:3001/login", { logemail: this.state.logemail, logpassword: this.state.logpassword })
+        axios.post("http://whatcook.herokuapp.com/login", { logemail: this.state.logemail, logpassword: this.state.logpassword })
             .then(res => {
                 // This tells the UI we've authenticated. See fakeAuth.js
                 localStorage.setItem("userID", res.data._id)
