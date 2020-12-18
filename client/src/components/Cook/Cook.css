@@ -16,29 +16,10 @@ li {
     width: 95%;
 }
 
-.clockpicker-display-column, .picker__box {
-    background-color: yellowgreen;
-}
-.time-picker-clock {
-    background-color: beige;
-}
-
-.clockpicker-button {
-    background-color: rgba(255, 140, 0, 0.637);
-}
-
-.clockpicker-button:hover {
-    background-color: rgba(247, 178, 94, 0.637);
-}
-
-.md-form {
-    background-color: yellowgreen;
-    margin-right: 1rem;
-    margin-bottom: 0.5rem;
-    border: 1px solid green;
+.MuiInputBase-input .MuiInputBase-input {
     cursor: pointer;
 }
 
-.timepicker {
-    text-align: center;
+.MuiFormLabel-root{
+    font-size: 1.5rem !important;
 }

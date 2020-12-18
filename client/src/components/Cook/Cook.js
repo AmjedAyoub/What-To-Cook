@@ -4,7 +4,7 @@ import { TimePicker } from '@material-ui/pickers';
 import "./Cook.css";
 
 const cook = (props) => {
-    let val = Date.parse("Thu Dec 10 2020 " + props.hours + ":" + props.minutes+ ":00 GMT-0800");
+    let val = Date.parse("Thu Dec 10 2020 00:00:00 GMT-0800");
         return(
             <div className="Cook">
                     {props.isCooking? 
@@ -24,18 +24,22 @@ const cook = (props) => {
                                 <h6>{props.recipe.readyInMinutes}-min.</h6>
                             </div>
                             <div className="Col-md-3" style={{marginBlock:'auto'}}>
-                                {props.timer ? <div><button className="btn warning" onClick={props.stopTimer}>Stop Timer</button>
-                                <strong>{props.showHours}:{props.showMinutes}:{props.showSeconds}</strong></div> : null}
-                                <TimePicker
-                                clearable
-                                ampm={false}
-                                openTo="hours"
-                                views={["hours", "minutes"]}
-                                format="HH:mm"
-                                label={props.timer ? "Reset Timer" : "Set Timer"}
-                                value={val}
-                                onChange={(event) => props.getValue(event)}
-                            />
+                                <div style={{border:'1px solid red', marginRight:'1rem'}}>
+                                    {props.timer ? <div><button className="btn warning mr-2" onClick={props.stopTimer}>Stop Timer</button>
+                                    <strong style={{backgroundColor:'greenyellow', padding:'5px', borderRadius:'50%'}}>{props.showHours}:{props.showMinutes}:{props.showSeconds}</strong></div> : null}
+                                    <TimePicker
+                                    className="mt-2 mb-2"
+                                    style={{cursor:'pointer'}}
+                                    clearable
+                                    ampm={false}
+                                    openTo="hours"
+                                    views={["hours", "minutes"]}
+                                    format="HH:mm"
+                                    label={props.timer ? "Reset Timer" : "Set Timer"}
+                                    value={val}
+                                    onChange={(event) => props.getValue(event)}/>
+                                </div>
+                            <br></br>
                                 <button className="btn primary" onClick={() => props.viewSteps('Steps', false)}>View Steps</button>
                                 <button className="btn danger" onClick={props.finish}>Finish Cooking</button>
                             </div>

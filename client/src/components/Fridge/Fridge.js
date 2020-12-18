@@ -21,7 +21,7 @@ class Fridge extends Component {
     }
 
     componentDidMount() {
-        axios.get("https://powerful-headland-74829.herokuapp.com/AllItems/" + localStorage.getItem("userID"))
+        axios.get("http://localhost:3001/AllItems/" + localStorage.getItem("userID"))
             .then(res => {
                 if (res.status === "error") {
                     throw new Error(res.data.message);
@@ -85,7 +85,7 @@ class Fridge extends Component {
     addItemsHandler = (event) => {
         // event.preventDefault();
         for (let i = 0; i < this.state.receiptResults.length; i++) {
-            axios.post("https://powerful-headland-74829.herokuapp.com/addItems", {
+            axios.post("http://localhost:3001/addItems", {
                 userID: localStorage.getItem("userID"),
                 name: this.state.receiptResults[i].annotation,
                 quantity: this.state.receiptResults[i].tag,
@@ -97,7 +97,7 @@ class Fridge extends Component {
                     if (res.status === "error") {
                         throw new Error(res.data.message);
                     }
-                    axios.get("https://powerful-headland-74829.herokuapp.com/AllItems/" + localStorage.getItem("userID"))
+                    axios.get("http://localhost:3001/AllItems/" + localStorage.getItem("userID"))
                         .then(res => {
                             if (res.status === "error") {
                                 throw new Error(res.data.message);
@@ -213,7 +213,7 @@ class Fridge extends Component {
     }
 
     addItemHandler = () => {
-        axios.post("https://powerful-headland-74829.herokuapp.com/addItems", {
+        axios.post("http://localhost:3001/addItems", {
             userID: localStorage.getItem("userID"),
             name: this.state.itemToAdd,
             quantity: this.state.quantityToAdd,
@@ -225,7 +225,7 @@ class Fridge extends Component {
                 if (res.status === "error") {
                     throw new Error(res.data.message);
                 }
-                axios.get("https://powerful-headland-74829.herokuapp.com/AllItems/" + localStorage.getItem("userID"))
+                axios.get("http://localhost:3001/AllItems/" + localStorage.getItem("userID"))
                     .then(res => {
 
                         if (res.status === "error") {
@@ -256,7 +256,7 @@ class Fridge extends Component {
 
     updateItemHandler = (id) => {
         console.log(this.state.items[id]);
-        axios.post("https://powerful-headland-74829.herokuapp.com/updateItem", {
+        axios.post("http://localhost:3001/updateItem", {
             userID: localStorage.getItem("userID"),
             itemID: this.state.items[id]._id,
             name: this.state.items[id].name,
@@ -268,7 +268,7 @@ class Fridge extends Component {
                 if (res.status === "error") {
                     throw new Error(res.data.message);
                 }
-                axios.get("https://powerful-headland-74829.herokuapp.com/AllItems/" + localStorage.getItem("userID"))
+                axios.get("http://localhost:3001/AllItems/" + localStorage.getItem("userID"))
                     .then(res => {
                         if (res.status === "error") {
                             throw new Error(res.data.message);
@@ -293,7 +293,7 @@ class Fridge extends Component {
     }
 
     deleteItemHandler = (id, event) => {
-        axios.post("https://powerful-headland-74829.herokuapp.com/deleteItem", {
+        axios.post("http://localhost:3001/deleteItem", {
             userID: localStorage.getItem("userID"),
             itemID: this.state.items[id]._id,
         })
@@ -301,7 +301,7 @@ class Fridge extends Component {
                 if (res.status === "error") {
                     throw new Error(res.data.message);
                 }
-                axios.get("https://powerful-headland-74829.herokuapp.com/AllItems/" + localStorage.getItem("userID"))
+                axios.get("http://localhost:3001/AllItems/" + localStorage.getItem("userID"))
                     .then(res => {
                         if (res.status === "error") {
                             throw new Error(res.data.message);

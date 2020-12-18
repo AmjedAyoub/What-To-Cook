@@ -44,8 +44,6 @@ class Home extends Component {
     items: [],
     ingredientsQuery: '',
     missedIngredients: [],
-    hours: '00',
-    minutes: '00',
     showHours: 0,
     showMinutes: 0,
     showSeconds: 0,
@@ -127,8 +125,6 @@ class Home extends Component {
                   ingredientsQuery: ingQuery,
                   items: res.data[0].items,
                   washingLoads: res.data[0].washLoads,
-                  hours: '00',
-                  minutes: '00',
                   timer: false
               })
             }
@@ -182,7 +178,6 @@ class Home extends Component {
   }
 
   startTimerHandler = (event) => {
-    console.log(event.getHours())
     if(event){
       let nowTime = new Date();
       nowTime.setHours(nowTime.getHours() + event.getHours());
@@ -221,9 +216,6 @@ class Home extends Component {
             showSeconds: 0,
             intervalCook: null,
             finishTime: null,
-            hours: '00',
-            minutes: '00',
-            seconds: '00',
             showAlert: true,
             alertMessage: 'Timer is done!',
             alertConfirm: false,
@@ -255,9 +247,6 @@ class Home extends Component {
     this.setState({
       ...this.state,
       timer: false,
-      hours: '00',
-      minutes: '00',
-      seconds: '00',
       showHours: 0,
       showMinutes: 0,
       showSeconds: 0,
@@ -588,7 +577,7 @@ class Home extends Component {
                   headers:{
                     "Content-Type":"application/octet-stream"
                   },
-                  url: "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + "ef31eccf28bc49dfb4278f7d8b66d1ab", 
+                  url: "https://api.spoonacular.com/recipes/findByIngredients?apiKey=ef31eccf28bc49dfb4278f7d8b66d1ab", 
                   params:{
                     ingredients: query
                     }
@@ -610,7 +599,7 @@ class Home extends Component {
               headers:{
                 "Content-Type":"application/octet-stream"
               },
-              url: "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + "ef31eccf28bc49dfb4278f7d8b66d1ab", 
+              url: "https://api.spoonacular.com/recipes/findByIngredients?apiKey=ef31eccf28bc49dfb4278f7d8b66d1ab", 
               params:{
                 ingredients: query
                 }
@@ -635,7 +624,7 @@ class Home extends Component {
         headers:{
           "Content-Type":"application/octet-stream"
         },
-        url: "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + "ef31eccf28bc49dfb4278f7d8b66d1ab", 
+        url: "https://api.spoonacular.com/recipes/findByIngredients?apiKey=ef31eccf28bc49dfb4278f7d8b66d1ab", 
         params:{
           ingredients: this.state.ingredientsQuery
           }
