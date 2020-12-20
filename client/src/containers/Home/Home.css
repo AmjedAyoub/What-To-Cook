@@ -101,3 +101,51 @@ button:focus{
     left: 33%; 
     bottom: 10%; 
 }
+
+@media (max-width: 600px) {
+    .Header {
+        float: right;
+    }
+
+    .btnHome {
+        left: 0%; 
+        top: 0%; 
+        width: 110px; 
+        height: 110px;
+    }
+
+    .btnSearch {
+        left: 40%; 
+        top: 35%; 
+        width: 140px; 
+        height: 140px;
+    }
+    
+    .btnFridge {
+        left: 10%; 
+        top: 25%; 
+    }
+    
+    .btnCook {
+        right: 10%; 
+        top: 15%; 
+    }
+    
+    .btnSink {
+        left: 5%; 
+        bottom: 36%; 
+    }
+    
+    .btnRecipe {
+        right: 10%; 
+        bottom: 32%; 
+    }
+    
+    .btnManage {
+        right: 5%;
+    }
+    
+    .btnOut { 
+        left: 20%;
+    }
+  }
