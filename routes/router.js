@@ -11,6 +11,13 @@ router.get('/', function (req, res, next) {
   return res.send('Logging');
 });
 
+router.get('/Logging', function (req, res, next) {
+  return res.send('Logging');
+});
+
+router.get('/Home', function (req, res, next) {
+  return res.send('Home');
+});
 
 router.post("/signup",
   [
@@ -79,8 +86,7 @@ router.post("/signup",
   }
 );
 
-router.post(
-  "/login",
+router.post("/login",
   [
     check("email", "Please enter a valid email").isEmail(),
     check("password", "Please enter a valid password").not().isEmpty()
@@ -138,16 +144,7 @@ router.post(
 );
   
 router.post('/logout', function (req, res, next) {
-    if (req.session) {
-      // delete session object
-      req.session.destroy(function (err) {
-        if (err) {
-          return next(err);
-        } else {
-          return res.send('/Logging');
-        }
-      });
-    }
+    return res.send('/Logging');
   });
 
 router.post('/addItems', function (req, res, next) {
