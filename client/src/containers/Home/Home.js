@@ -646,7 +646,7 @@ class Home extends Component {
       localStorage.clear("userID");
       localStorage.removeItem("token");
       localStorage.clear("token");
-      this.props.history.push("/Logging");
+      // this.props.history.push("/Logging");
       this.props.checked();
       // window.location.reload();
   }

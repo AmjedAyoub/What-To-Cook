@@ -116,7 +116,7 @@ class Logging extends Component {
                             isAuthenticated: true
                         });
                         // React redirect to /home route.
-                        this.props.history.push("/Home");
+                        // this.props.history.push("/Home");
                         this.props.checked();
                         // window.location.reload();
                     }

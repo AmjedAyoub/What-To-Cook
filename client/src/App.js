@@ -22,7 +22,7 @@ class App extends Component {
     let routes =  (
       <Switch>
         {/* <Route path="/Logging" exact component={Logging}/> */}
-        <Route path="/Logging" render={() => <Logging checked={this.componentDidMount}/>} />
+        <Route path="/Logging" exact render={() => <Logging checked={() => this.componentDidMount()}/>} />
         <Redirect from="/" to="/Logging" />
       </Switch>
     );
@@ -30,7 +30,7 @@ class App extends Component {
       routes =  (
         <Switch>
           {/* <Route path="/Home" exact component={Home}/> */}
-          <Route path="/Home" render={() => <Home checked={this.componentDidMount}/>} />
+          <Route path="/Home" exact render={() => <Home checked={() => this.componentDidMount()}/>} />
           <Redirect from="/" to="/Home" />
         </Switch>
       );
