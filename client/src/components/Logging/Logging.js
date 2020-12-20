@@ -137,7 +137,7 @@ class Logging extends Component {
     render() {
         return (
             <div className="Logging">
-                <h1 className="Header">What To Cook?</h1>
+                <h1 className="Header1">What To Cook?</h1>
                 <div className="row" style={{ justifyContent: 'space-evenly' }}>
                     <div className="Col-md-6">
                         <form onSubmit={this.handleFormSubmit}>
