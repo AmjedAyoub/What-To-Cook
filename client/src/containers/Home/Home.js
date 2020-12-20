@@ -494,7 +494,7 @@ class Home extends Component {
           minutes: 0,
           recipeToCook: response.data,
           isCooking: true,
-          steps: response.data.analyzedInstructions[0].steps,
+          steps: response.data.analyzedInstructions[0]?.steps || [],
           showAlert: true,
           alertMessage: 'The meal has been added!',
           alertConfirm: false
@@ -642,23 +642,12 @@ class Home extends Component {
   }
   
   logoutHandler=()=>{
-    axios.post("http://whatcook.herokuapp.com/logout", {})
-    .then(res => {
-      console.log("look here", res)
-    //   localStorage.setItem("userID", res.data._id)
-    // Tell the UI we've authenticated.
-    // fakeAuth.isAuthenticated = false;
-    // React redirect to /home route.
-    //   this.props.history.push("/login");
       localStorage.removeItem("userID");
+      localStorage.clear("userID");
+      localStorage.removeItem("token");
       localStorage.clear("token");
-      this.props.history.push("/Logging");
-      if (res.status === "error") {
-        throw new Error(res.data.message);
-      }
-    }).catch(err => {
-      console.log(err)
-    });
+      // this.props.history.push("/Logging");
+      window.location.reload();
   }
 
   componentWillUnmount(){

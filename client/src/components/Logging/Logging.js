@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import "./Logging.css";
+import Alert from "../UI/Alert/Alert";
 
 class Logging extends Component {
     state = {
@@ -10,7 +11,9 @@ class Logging extends Component {
         password2: "",
         logemail: "",
         logpassword: "",
-        isAuthenticated: false
+        isAuthenticated: false,
+        error: "",
+        showAlert: false
     };
 
     handleInputChange = event => {
@@ -32,49 +35,104 @@ class Logging extends Component {
     handleFormSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
-        axios.post("http://whatcook.herokuapp.com/login", { user: this.state.user, email: this.state.email, password: this.state.password1, passwordConf: this.state.password2 })
-            .then(res => {
-                if (res.status === "error") {
-                    throw new Error(res.data.message);
-                }
-                // Tell the UI we've authenticated.
-                localStorage.setItem("userID", res.data._id)
-                // React redirect to /home route.
-                this.props.history.push("/Home");
+        if( this.state.password2 === this.state.password1){
+            axios.post("http://localhost:3001/signup", { user: this.state.user, email: this.state.email, password: this.state.password1 })
+                .then(res=> {
+                    // Tell the UI we've authenticated.
+                    if(res.data.msg){
+                        this.setState({ 
+                            isAuthenticated: false,
+                            error: res.data.msg,
+                            showAlert: true 
+                        })
+                    }else if(res.data.errors){
+                        let msg = "";
+                        for(const er of res.data.errors){
+                            msg += er.msg + "\n"; 
+                        }
+                        this.setState({ 
+                            isAuthenticated: false,
+                            error: msg,
+                            showAlert: true 
+                        })
+                    }else{
+                        this.setState({
+                            user: "",
+                            email: "",
+                            password1: "",
+                            password2: "",
+                            logpassword: "",
+                            logemail: res.data.user.email,
+                            isAuthenticated: true,
+                            error:"signed up successfully",
+                            showAlert: true
+                        });
+                        // React redirect to /home route.
+                        // this.props.history.push("/Home");
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }else{
+            this.setState({
+                error:"Passwords dont match",
+                showAlert: true
             })
-            .catch(err => this.setState({ error: err.message }));
-
-        this.setState({
-            user: "",
-            email: "",
-            password1: "",
-            password2: ""
-        });
+        }
     };
 
     handleSginInSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
-        axios.post("http://whatcook.herokuapp.com/login", { logemail: this.state.logemail, logpassword: this.state.logpassword })
+        axios.post("http://localhost:3001/login", { email: this.state.logemail, password: this.state.logpassword })
             .then(res => {
-                // This tells the UI we've authenticated. See fakeAuth.js
-                localStorage.setItem("userID", res.data._id)
-                if (res.status === "error") {
-                    throw new Error(res.data.message);
-                }
-                // React redirect to /Home route.
-                this.props.history.push("/Home");
+                if(res.data.msg){
+                        this.setState({ 
+                            isAuthenticated: false,
+                            error: res.data.msg,
+                            showAlert: true  
+                        })
+                    }else if(res.data.errors){
+                        let msg = "";
+                        for(const er of res.data.errors){
+                            msg += er.msg + "\n"; 
+                        }
+                        this.setState({ 
+                            isAuthenticated: false,
+                            error: msg ,
+                            showAlert: true 
+                        })
+                    }else{
+                        localStorage.setItem("token", res.data.token)
+                        localStorage.setItem("userID", res.data.user._id)
+                        this.setState({
+                            user: "",
+                            email: "",
+                            password1: "",
+                            password2: "",
+                            logpassword: "",
+                            logemail: "",
+                            isAuthenticated: true
+                        });
+                        // React redirect to /home route.
+                        // this.props.history.push("/Home");
+                        window.location.reload();
+                    }
             })
             .catch(err => this.setState({
                 ...this.state,
                 error: err.message
             }));
-        this.setState({
-            ...this.state,
-            logpassword: "",
-            logemail: "",
-        });
     };
+
+    closeAlertHandler = () => {
+        this.setState({
+          ...this.state,
+          showAlert: false,
+          error: ""
+        });
+    }
 
     render() {
         return (
@@ -158,6 +216,7 @@ class Logging extends Component {
                         </form>
                     </div>
                 </div>
+                <Alert show={this.state.showAlert} modalClosed={this.closeAlertHandler} message={this.state.error} confirm={false}/>
             </div>
         )
     }

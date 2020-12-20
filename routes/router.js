@@ -1,65 +1,141 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../models/user');
-var ObjectID = require('mongodb').ObjectID;
+const express = require('express');
+const router = express.Router();
+const { check, validationResult} = require("express-validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require('../models/user');
+const ObjectID = require('mongodb').ObjectID;
 
 router.get('/', function (req, res, next) {
   // return res.sendFile(path.join(__dirname + '/templateLogReg/index.html'));
   return res.send('Logging');
 });
 
-router.post('/login', function (req, res, next) {
-  if (req.body.password !== req.body.passwordConf) {
-    var err = new Error('Passwords do not match.');
-    err.status = 400;
-    res.send("passwords dont match");
-    return next(err);
-  }
-  if (req.body.email &&
-    req.body.password &&
-    req.body.passwordConf) {
-      var userData = {
-        email: req.body.email,
-        user: req.body.user,
-        password: req.body.password
+
+router.post("/signup",
+  [
+      check("user", "Please Enter a Valid Name").not().isEmpty(),
+      check("email", "Please enter a valid email").isEmail(),
+      check("password", "Please enter a valid password").not().isEmpty()
+  ],
+  async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          return res.json({
+              errors: errors.array()
+          });
       }
-      User.create(userData, function (error, user) {
-        let userExists = false;
-        User.find({email:req.body.email})
-        .then(function(res)
-        {if (res) {
-          userExists=true;
-          if (userExists){
-            let err = new Error ('User already exists');
-            err.status = 400;
-            return next(err);
+
+      const {
+          user,
+          email,
+          password
+      } = req.body;
+      try {
+          let user = await User.findOne({
+            email
+          });
+          if (user) {
+              return res.json({
+                  msg: "User Already Exists"
+              });
           }
-          else {
-            req.session.userId = user._id;
-            return res.json(user);
-          }
-        }}
-        )
+
+          user = new User({
+              user: req.body.user,
+              email: req.body.email,
+              password: req.body.password
+          });
+
+          const salt = await bcrypt.genSalt(10);
+          user.password = await bcrypt.hash(password, salt);
+
+          await user.save();
+
+          const payload = {
+              user: {
+                  id: user.id
+              }
+          };
+
+          jwt.sign(
+              payload,
+              "randomStringToMakeThatReallyHardToHashRandomly", {
+                  expiresIn: 3600000 * 6
+              },
+              (err, token) => {
+                  if (err) throw err;
+                  return res.status(200).json({
+                      token, user
+                  });
+              }
+          );
+      } catch (err) {
+          console.log(err.message);
+          return res.json({
+            msg: "Error in Saving"
+        });
+      }
+  }
+);
+
+router.post(
+  "/login",
+  [
+    check("email", "Please enter a valid email").isEmail(),
+    check("password", "Please enter a valid password").not().isEmpty()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.json({
+        errors: errors.array()
       });
-      
-    } else if (req.body.logemail && req.body.logpassword) {
-      
-      User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
-        if (error) {
-          var err = new Error('Wrong email or password.');
-          err.status = 401;
-          return next(err);
-        } else {
-          req.session.userId = user._id;
-          return res.json(user)
-        }
-      });
-    } else {
-      const err = new Error('All fields required.');
-      err.status = 400;
-      return next(err);
     }
-  })
+
+    const { email, password } = req.body;
+    try {
+      let user = await User.findOne({
+        email
+      });
+      if (!user)
+        return res.json({
+          msg: "User Not Exist"
+        });
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch)
+        return res.json({
+          msg: "Incorrect Password !"
+        });
+
+      const payload = {
+        user: {
+          id: user.id
+        }
+      };
+
+      jwt.sign(
+        payload,
+        "randomStringToMakeThatReallyHardToHashRandomly", {
+          expiresIn: 3600000 * 6
+        },
+        (err, token) => {
+          if (err) throw err;
+          res.status(200).json({
+            token, user
+          });
+        }
+      );
+    } catch (e) {
+      console.error(e);
+      res.json({
+        msg: "Server Error"
+      });
+    }
+  }
+);
   
 router.post('/logout', function (req, res, next) {
     if (req.session) {

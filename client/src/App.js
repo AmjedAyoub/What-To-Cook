@@ -1,19 +1,44 @@
-import { Route, Switch, Redirect } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import './App.css';
 
 import Home from "./containers/Home/Home";
 import Logging from "./components/Logging/Logging";
 
-function App() {
-  return (
-    <div className="App">
+class App extends Component {
+  state={
+    token: ""
+  }
+
+  componentDidMount () {
+    const t = localStorage.getItem("token");
+    this.setState({
+      token: t
+    })
+  }
+
+  render(){
+    const t = localStorage.getItem("token");
+    let routes =  (
       <Switch>
-            <Route path="/Home" exact component={Home}/>
-            <Route path="/Logging" exact component={Logging}/>
-            <Redirect from="/" to="/Logging" />
+        <Route path="/Logging" exact component={Logging}/>
+        <Redirect from="/" to="/Logging" />
       </Switch>
-    </div>
-  );
+    );
+    if(this.state.token || t){
+      routes =  (
+        <Switch>
+          <Route path="/Home" exact component={Home}/>
+          <Redirect from="/" to="/Home" />
+        </Switch>
+      );
+    }
+    return (
+      <div className="App">
+        {routes}
+      </div>
+    );
+  }
 }
 
-export default App;
+export default withRouter(App);
