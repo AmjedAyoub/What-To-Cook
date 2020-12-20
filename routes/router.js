@@ -5,18 +5,19 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require('../models/user');
 const ObjectID = require('mongodb').ObjectID;
+const path = require('path');
 
-router.get('/', function (req, res, next) {
-  // return res.sendFile(path.join(__dirname + '/templateLogReg/index.html'));
-  return res.send('Logging');
-});
+// router.get('/', function (req, res, next) {
+//   // return res.sendFile(path.join(__dirname + '/templateLogReg/index.html'));
+//   return true;
+// });
 
 // router.get('/Logging', function (req, res, next) {
-//   console.log('Logging');
+//   return res.sendFile(path.join(__dirname + '/templateLogReg/index.html'));
 // });
 
 // router.get('/Home', function (req, res, next) {
-//   console.log('Home');
+//   return res.sendFile(path.join(__dirname + '/templateLogReg/index.html'));
 // });
 
 router.post("/signup",

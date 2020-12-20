@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
 ReactDOM.render(
-  <BrowserRouter>
+  <HashRouter>
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <App />
     </MuiPickersUtilsProvider>
-  </BrowserRouter>,
+  </HashRouter>,
   document.getElementById('root')
 );
 

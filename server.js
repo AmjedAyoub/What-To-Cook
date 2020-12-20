@@ -7,6 +7,7 @@ const cors = require('cors');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 require('dotenv').config();
+const path = require('path');
 
 const PORT = process.env.PORT || 3001;
 
@@ -22,6 +23,7 @@ app.use(express.json());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
+// app.use(express.static(path.join(__dirname,'public'))); 
 
 // Connect to the Mongo DB
 mongoose.connect(
@@ -50,6 +52,13 @@ app.use(routes);
 app.use(function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
+// app.get('*', (req, res)=> {
+//   const index = path.join(__dirname, "./client/build/index.html" );
+//   res.sendFile(index);
+// });
+// app.get('/', function (req, res) {
+//   res.render('index', {});
+// });
 
 // Start the API server
 app.listen(PORT, function() {
