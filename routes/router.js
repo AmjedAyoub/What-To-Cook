@@ -11,13 +11,13 @@ router.get('/', function (req, res, next) {
   return res.send('Logging');
 });
 
-router.get('/Logging', function (req, res, next) {
-  console.log('Logging');
-});
+// router.get('/Logging', function (req, res, next) {
+//   console.log('Logging');
+// });
 
-router.get('/Home', function (req, res, next) {
-  console.log('Home');
-});
+// router.get('/Home', function (req, res, next) {
+//   console.log('Home');
+// });
 
 router.post("/signup",
   [

@@ -21,14 +21,16 @@ class App extends Component {
     const t = localStorage.getItem("token");
     let routes =  (
       <Switch>
-        <Route path="/Logging" exact component={Logging}/>
+        {/* <Route path="/Logging" exact component={Logging}/> */}
+        <Route path="/Logging" render={() => <Logging checked={this.componentDidMount}/>} />
         <Redirect from="/" to="/Logging" />
       </Switch>
     );
     if(this.state.token || t){
       routes =  (
         <Switch>
-          <Route path="/Home" exact component={Home}/>
+          {/* <Route path="/Home" exact component={Home}/> */}
+          <Route path="/Home" render={() => <Home checked={this.componentDidMount}/>} />
           <Redirect from="/" to="/Home" />
         </Switch>
       );
